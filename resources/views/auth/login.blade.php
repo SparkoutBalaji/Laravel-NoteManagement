@@ -19,33 +19,47 @@
                                         <h1 class="h1 text-gray-900 mb-4">Note Management</h1>
                                         <h3 class="h4 text-gray-900 mb-4">Login</h3>
                                     </div>
-                                    <form class="user">
+                                        @if(session('success'))
+                                            <div class="alert alert-success">
+                                                {{ session('success') }}
+                                            </div>
+                                        @endif
+
+                                        @if(session('fail'))
+                                            <div class="alert alert-danger">
+                                                {{ session('fail') }}
+                                            </div>
+                                        @endif
+                                    <form method="post" action="{{ route('authentication') }}" class="user">
+                                        @csrf
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                            <input type="email" name="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                                placeholder="Enter Email Address..." value="{{ old('email') }}">
                                         </div>
+                                        @if ($errors->has('email'))
+                                            <div class="text-danger">
+                                                <p>{{ $errors->first('email') }}</p>
+                                            </div>
+                                        @endif
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                            <input type="password" name="password" class="form-control form-control-user"
+                                                id="exampleInputPassword" placeholder="Password" value="{{ old('password') }}">
                                         </div>
-                                        {{-- <div class="form-group">
+                                        @if ($errors->has('password'))
+                                            <div class="text-danger">
+                                                <p>{{ $errors->first('password') }}</p>
+                                            </div>
+                                        @endif
+                                        <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" class="custom-control-input" id="customCheck">
                                                 <label class="custom-control-label" for="customCheck">Remember
                                                     Me</label>
                                             </div>
-                                        </div> --}}
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </a>
+                                        </div>
+                                        <input type="submit" class="btn btn-primary btn-user btn-block" value="Login">
                                         <hr>
-                                        {{-- <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a> --}}
                                     </form>
                                     <hr>
                                     <div class="text-center">
