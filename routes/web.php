@@ -26,3 +26,7 @@ Route::post('/user/authentication',[LoginController::class,'authenticate'])->nam
 Route::get('/user/dashboard/{id}',[UserController::class,'dashboard'])->name('user.dashboard');
 
 Route::get('/user/{id}/notes/create',[NoteController::class,'create'])->name('notes.create');
+
+Route::post('/user/{id}/notes/store',[NoteController::class,'store'])->name('notes.store');
+
+

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Note;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class NoteController extends Controller
 {
@@ -28,9 +31,28 @@ class NoteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'category' => 'required',
+            'message' => 'required',
+       ]);
+
+       if ($validator->fails()) {
+            return redirect()->Back()->withInput()->withErrors($validator);
+       }else{
+            // Insert record
+            Note::create([
+                'subject' => $request->subject,
+                'message' => $request->message
+            ]);
+
+            Session::flash('message','Form submit Successfully.');
+       }
+
+       return redirect('/');
+
     }
 
     /**
@@ -64,4 +86,12 @@ class NoteController extends Controller
     {
         //
     }
+
+     // Submit form
+     public function submitform(Request $request){
+
+
+     }
+
 }
+

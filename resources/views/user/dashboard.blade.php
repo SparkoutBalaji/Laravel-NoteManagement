@@ -126,13 +126,13 @@
                     </ul>
                 </nav>
                 @yield('main')
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Note Management 2023</span>
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; Note Management 2023</span>
+                        </div>
                     </div>
-                </div>
-            </footer>
+                </footer>
         </div>
     </div>
 @endsection
