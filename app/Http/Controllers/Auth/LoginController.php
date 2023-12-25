@@ -26,13 +26,19 @@ class LoginController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-            if (Auth::attempt($credentials)) {
-                $user = Auth::user(); // Get the authenticated user
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user(); // Get the authenticated user
 
-                // Redirect to the user's dashboard based on their ID
-                return redirect()->route('user.dashboard', ['id' => $user->id]);
-            } else {
-                return redirect()->back()->withInput($request->only('email'))->with(['fail' => 'The provided credentials do not match our records.']);
-            }
+            // Redirect to the user's dashboard based on their ID
+            return redirect()->route('user.dashboard', ['id' => $user->id]);
+        } else {
+            return redirect()->back()->withInput($request->only('email'))->with(['fail' => 'The provided credentials do not match our records.']);
+        }
+    }
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect()->route('login');
     }
 }

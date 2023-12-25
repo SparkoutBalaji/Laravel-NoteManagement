@@ -11,6 +11,7 @@ class UserController extends Controller
         public function dashboard($id)
         {
             $user = User::find($id);
-            return view('user.dashboard', ['user' => $user]);
+            $userCategories = $user->category;
+            return view('user.dashboard', compact('user','userCategories'));
         }
 }

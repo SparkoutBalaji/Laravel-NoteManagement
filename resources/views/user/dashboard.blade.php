@@ -1,5 +1,5 @@
 @extends('layout.layout')
-@section('title','User Dashboard')
+@section('title', 'User Dashboard')
 @section('content')
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -28,7 +28,7 @@
             <!-- Nav Item - Pages Collapse Menu -->
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('notes.create',['id'=>$user->id]) }}">
+                <a class="nav-link" href="{{ route('notes.create', ['user' => $user->id]) }}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Create</span></a>
             </li>
@@ -36,18 +36,28 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                        <span>Categories</span>
+                    <span>Categories</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
+                        @php
+                            $groupedCategories = $userCategories->groupBy('category');
+                        @endphp
 
+                        @if ($groupedCategories->count() > 0)
+                            @foreach ($groupedCategories as $category => $notes)
+                                <a class="collapse-item" href="#">{{ $category }}</a>
+                            @endforeach
+                        @else
+                            <p>No categories found.</p>
+                        @endif
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="">
+                <a class="nav-link" href="{{ route('notes.list', ['id' => $user->id]) }}">
                     <i class="fas fa-list-alt"></i>
-                        <span>List</span>
+                    <span>List</span>
                 </a>
             </li>
             <hr class="sidebar-divider d-none d-md-block">
@@ -70,8 +80,7 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                                 aria-label="Search" aria-describedby="basic-addon2">
@@ -93,8 +102,7 @@
                                 <form class="form-inline mr-auto w-100 navbar-search">
                                     <div class="input-group">
                                         <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
+                                            placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                                         <div class="input-group-append">
                                             <button class="btn btn-primary" type="button">
                                                 <i class="fas fa-search fa-sm"></i>
@@ -110,8 +118,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ $user->name }}</span>
-                                <img class="img-profile rounded-circle"
-                                    src="{{ asset('assets/img/undraw_profile.svg') }}">
+                                <img class="img-profile rounded-circle" src="{{ asset('assets/img/undraw_profile.svg') }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -133,6 +140,6 @@
                         </div>
                     </div>
                 </footer>
+            </div>
         </div>
-    </div>
-@endsection
+    @endsection
