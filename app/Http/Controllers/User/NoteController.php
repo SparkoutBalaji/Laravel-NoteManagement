@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -15,9 +16,9 @@ class NoteController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create($id)
+    public function create()
     {
-        $user = User::find($id);
+        $user = Auth::guard('users')->user();
         $userCategories = $user->category;
         return view('user.createOrEdit', compact('user', 'userCategories'));
     }
@@ -26,7 +27,7 @@ class NoteController extends Controller
      * Store a newly created resource in storage.
      */
 
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'category' => 'required',
@@ -49,7 +50,7 @@ class NoteController extends Controller
             // Update the existing note
             $existingNote->update([
                 'category' => $request->input('category'),
-                'tags' => $tags,
+                'tags' => $request->input('tags'),
                 'note' => $request->input('note'),
             ]);
 
@@ -57,7 +58,7 @@ class NoteController extends Controller
         } else {
             // Create a new note
             Note::create([
-                'user_id' => $id,
+                'user_id' => Auth::guard('users')->user()->id,
                 'category' => $request->input('category'),
                 'tags' => $tags,
                 'note' => $request->input('note'),
@@ -65,7 +66,7 @@ class NoteController extends Controller
 
             Session::flash('message', 'Note submitted successfully.');
         }
-
+        $id = Auth::user()->id;
         return redirect()->route('notes.list', ['id' => $id]);
     }
 
@@ -100,18 +101,18 @@ class NoteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id, Note $note)
+    public function show(Note $note)
     {
-        $user = User::find($id);
+        $user = Auth::guard('users')->user()->id;
         $userCategories = $user->category;
 
         $note = Note::findOrFail($note);
         return view('user.show', compact('note', 'user', 'userCategories'));
     }
 
-    public function list($id)
+    public function list()
     {
-        $user = User::find($id);
+        $user = Auth::user();
         $userCategories = $user->category;
         $userNotes = $user->notes;
 
@@ -130,7 +131,7 @@ class NoteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id, Note $note)
+    public function update(Request $request, Note $note)
     {
         $validatedData = $request->validate([
             'category' => 'required',
@@ -149,7 +150,7 @@ class NoteController extends Controller
         // $userNotes = $user->notes;
 
 
-        return redirect()->route('notes.list', ['id' => $id])
+        return redirect()->route('notes.list')
             ->with('success', 'Note updated successfully.');
     }
 
@@ -170,7 +171,7 @@ class NoteController extends Controller
     {
         // dd($request->all());
         Note::where('id', $request->input('Note'))->delete();
-        $id = $request->input('id');
+        $id = Auth::guard('users')->user()->id;
 
         // Assuming you want to redirect to the notes list
         return redirect()->route('notes.list', ['id' => $id])->with('success', 'Note deleted successfully');

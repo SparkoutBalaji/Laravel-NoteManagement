@@ -18,7 +18,7 @@
         <div class="container-fluid">
             <h4>Notes Form</h4>
             <form method="post"
-                action="{{ isset($note) ? route('notes.update', ['user' => $user->id]) : route('notes.store', ['user' => $user->id]) }}">
+                action="{{ isset($note) ? route('notes.update') : route('notes.store') }}">
                 @csrf
                 @if (isset($note))
                     @method('PUT')

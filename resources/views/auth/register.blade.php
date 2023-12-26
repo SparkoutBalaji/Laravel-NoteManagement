@@ -12,7 +12,7 @@
                     <div class="col-lg-12">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h1 text-gray-900 mb-4">Note Management</h1>
+                                <h1 class="h1 text-gray-900 mb-4"><i class="fas fa-sticky-note"></i>  Note Management</h1>
 
                                 <h3 class="h4 text-gray-900 mb-4">Create an Account!</h3>
                             </div>

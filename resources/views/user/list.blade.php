@@ -28,7 +28,7 @@
                                 </tr>
                                 @foreach ($notesInCategory as $note)
                                     <tr>
-                                        <td>{{ $category }}</td>
+                                        <td>{{ $note->category }}</td>
                                         <td>{{ $note->tags }}</td>
                                         <td>{!! $note->note !!}</td>
                                         <td>
