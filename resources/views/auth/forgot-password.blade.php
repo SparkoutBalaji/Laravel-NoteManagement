@@ -1,5 +1,5 @@
 @extends('layout.layout')
-@section('title','Forget Password')
+@section('title', 'Forget Password')
 @section('content')
     <div class="container">
 
@@ -17,18 +17,31 @@
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-2">Forgot Your Password?</h1>
+                                        @if (Session::has('message'))
+                                            <div class="alert alert-success" role="alert">
+
+                                                {{ Session::get('message') }}
+
+                                            </div>
+                                        @endif
                                         <p class="mb-4">We get it, stuff happens. Just enter your email address below
                                             and we'll send you a link to reset your password!</p>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" action="{{ route('forget.password.post') }}" method="POST">
+                                        @csrf
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                            @if ($errors->has('email'))
+                                                <span class="text-danger">{{ $errors->first('email') }}</span>
+                                            @endif
+                                            <input type="email" name="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
                                                 placeholder="Enter Email Address...">
+                                                
                                         </div>
-                                        <a href="login.html" class="btn btn-primary btn-user btn-block">
-                                            Reset Password
-                                        </a>
+                                        <input type="submit" value="Password Reset Link"
+                                            class="btn btn-primary btn-user btn-block">
+
+
                                     </form>
                                     <hr>
                                     <div class="text-center">

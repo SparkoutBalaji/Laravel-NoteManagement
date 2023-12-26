@@ -6,6 +6,7 @@ use App\Http\Controllers\User\NoteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\User\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,8 +40,6 @@ Route::get('/user/dashboard ', [UserController::class, 'dashboard'])->name('user
 
 Route::get('/user/notes/list', [NoteController::class, 'list'])->name('notes.list');
 
-// Route::get('/user/{id}/notes/{Note:id}/show', [NoteController::class, 'show'])->name('notes.show');
-
 Route::delete('/user/notes', [NoteController::class, 'destroy'])->name('notes.destroy');
 
 Route::get('/user/notes/create', [NoteController::class, 'create'])->name('notes.create');
@@ -50,3 +49,13 @@ Route::get('/user/notes/{note}/edit', [NoteController::class, 'edit'])->name('no
 Route::put('/user/notes', [NoteController::class, 'store'])->name('notes.update');
 });
 // Route::post('/user/notes/uploads',[NoteController::class,'upload'])->name('notes.uploads');
+
+
+//Forgot Password
+Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+
+Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
+
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+
+Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
