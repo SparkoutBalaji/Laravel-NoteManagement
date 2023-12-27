@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 
 class NoteController extends Controller
 {
@@ -69,11 +68,30 @@ class NoteController extends Controller
         return view('user.list', compact('user', 'userCategories', 'userNotes'));
     }
 
-    public function edit(User $user, Note $note)
+    public function category()
     {
+        // dd(request('category'));
+        $user = Auth::user();
         $userCategories = $user->category;
+        $userNotes = $user->notes;
+        $categoryName = request('category');
+
+        $category = Note::where('category', $categoryName)->get();
+
+        return view('user.categoryList', compact('user', 'userCategories','categoryName', 'userNotes', 'category'));
+    }
+
+
+
+    public function edit()
+    {
+        $user = Auth::user();
+        $note = Note::find(request('note'));
+        $userCategories = $user->category;
+
         return view('user.createOrEdit', compact('user', 'userCategories', 'note'));
     }
+
 
     public function destroy(Request $request)
     {

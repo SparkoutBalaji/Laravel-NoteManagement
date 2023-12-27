@@ -11,11 +11,11 @@ class UserController extends Controller
 {
     public function dashboard()
     {
-        // dd(Auth::guard('users')->user());
-        // dd($user);
-        // $userCategories = $user->category;
+        $user = Auth::guard('users')->user();
 
-        return view('user.dashboard');
+        $userCategories = $user->category;
+
+        return view('user.dashboard', compact('user','userCategories'));
     }
 
 }

@@ -46,7 +46,7 @@
 
                         @if ($groupedCategories->count() > 0)
                             @foreach ($groupedCategories as $category => $notes)
-                                <a class="collapse-item" href="#">{{ $category }}</a>
+                            <a class="collapse-item" href="{{ route('notes.category', ['category' => $category]) }}">{{ $category }}</a>
                             @endforeach
                         @else
                             <p>No categories found.</p>

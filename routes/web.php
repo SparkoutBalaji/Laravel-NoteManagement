@@ -38,6 +38,8 @@ Route::view('/forgot-password', 'auth.forgot-password')->name('forgot-password')
 
 Route::get('/user/dashboard ', [UserController::class, 'dashboard'])->name('user.dashboard');
 
+Route::get('/user/category/notes',[NoteController::class,'category'])->name('notes.category');
+
 Route::get('/user/notes/list', [NoteController::class, 'list'])->name('notes.list');
 
 Route::delete('/user/notes', [NoteController::class, 'destroy'])->name('notes.destroy');
@@ -45,7 +47,7 @@ Route::delete('/user/notes', [NoteController::class, 'destroy'])->name('notes.de
 Route::get('/user/notes/create', [NoteController::class, 'create'])->name('notes.create');
 Route::post('/user/notes', [NoteController::class, 'store'])->name('notes.store');
 
-Route::get('/user/notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
+Route::get('/user/notes/edit', [NoteController::class, 'edit'])->name('notes.edit');
 Route::put('/user/notes', [NoteController::class, 'store'])->name('notes.update');
 });
 // Route::post('/user/notes/uploads',[NoteController::class,'upload'])->name('notes.uploads');

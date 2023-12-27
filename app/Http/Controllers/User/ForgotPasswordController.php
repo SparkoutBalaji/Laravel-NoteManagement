@@ -20,18 +20,6 @@ class ForgotPasswordController extends Controller
         return view('auth.forgot-password');
     }
 
-
-
-    /**
-
-     * Write code on Method
-
-     *
-
-     * @return response()
-
-     */
-
     public function submitForgetPasswordForm(Request $request)
     {
         $request->validate([
@@ -55,16 +43,6 @@ class ForgotPasswordController extends Controller
 
         return back()->with('message', 'We have e-mailed your password reset link!');
     }
-
-    /**
-
-     * Write code on Method
-
-     *
-
-     * @return response()
-
-     */
 
     public function showResetPasswordForm($token)
     {

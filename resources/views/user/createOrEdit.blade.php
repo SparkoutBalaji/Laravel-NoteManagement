@@ -17,8 +17,7 @@
 
         <div class="container-fluid">
             <h4>Notes Form</h4>
-            <form method="post"
-                action="{{ isset($note) ? route('notes.update') : route('notes.store') }}">
+            <form method="post" action="{{ isset($note) ? route('notes.update') : route('notes.store') }}">
                 @csrf
                 @if (isset($note))
                     @method('PUT')
@@ -35,26 +34,28 @@
                             </div>
                             <div class="card-body">
                                 <div class="col-sm-12 mb-2">
-                                    @if (session('message'))
-                                        <div class="alert alert-success">
-                                            {{ session('message') }}
-                                        </div>
-                                    @endif
+                                    @error('category')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                     <input type="text" name="category" class="form-control form-control-user"
                                         placeholder="Enter Category..."
                                         value="{{ isset($note) ? $note->category : old('category') }}">
                                 </div>
 
                                 <div class="col-sm-12 mb-2">
+                                    @error('tags')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                     <select class="js-example-basic-multiple" name="tags[]" multiple="multiple">
-                                        @if (isset($note))
+                                        @if (old('tags'))
+                                            {{-- Preserve old tags --}}
+                                            @foreach (old('tags') as $tag)
+                                                <option value="{{ $tag }}" selected>{{ $tag }}</option>
+                                            @endforeach
+                                        @elseif (isset($note))
+                                            {{-- Display tags from the note --}}
                                             @if (is_array($note->tags))
-                                                {{-- Display each tag separately --}}
-                                                @php
-                                                    $tagsArray = json_decode($note->tags);
-                                                @endphp
-
-                                                @foreach ($tagsArray as $tag)
+                                                @foreach ($note->tags as $tag)
                                                     <option value="{{ $tag }}" selected>{{ $tag }}
                                                     </option>
                                                 @endforeach
@@ -67,7 +68,10 @@
                                 </div>
 
                                 <div class="col-sm-12 mb-2">
-                                    <textarea class="form-control editor" id="editor" name="note" placeholder="Enter your notes here...">{{ isset($note) ? $note->note : old('notes') }}</textarea>
+                                    @error('note')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                    <textarea class="form-control editor" id="editor" name="note" placeholder="Enter your notes here...">{{ isset($note) ? $note->note : old('note') }}</textarea>
                                 </div>
                             </div>
                         </div>

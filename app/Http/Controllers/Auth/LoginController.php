@@ -27,9 +27,6 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('users')->attempt($credentials)) {
-            // $user = Auth::guard('users')->user();
-            // // dd($user);
-            // Session::getId($user);
             return redirect()->route('notes.create');
         } else {
             return redirect()
