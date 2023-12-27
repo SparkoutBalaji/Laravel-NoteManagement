@@ -1,5 +1,7 @@
     @extends('user.dashboard')
     @section('main')
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
         <!-- Load jQuery -->
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -25,27 +27,19 @@
                 @endif
                 <div class="row">
                     <div class="col-xl-12 col-lg-12">
-                        <div class="card shadow mb-2">
-                            <div class="col-sm-12 d-sm-flex align-items-center justify-content-between">
-                                <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                                    <i class="fas fa-solid fa-square-plus text-white-50"></i>
-                                    {{ isset($note) ? 'Update Note' : 'Add Note' }}
-                                </button>
-                            </div>
+                        <div class="card shadow">
                             <div class="card-body">
                                 <div class="col-sm-12 mb-2">
-                                    @error('category')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
+
                                     <input type="text" name="category" class="form-control form-control-user"
                                         placeholder="Enter Category..."
                                         value="{{ isset($note) ? $note->category : old('category') }}">
                                 </div>
-
+                                @error('category')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
                                 <div class="col-sm-12 mb-2">
-                                    @error('tags')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
+
                                     <select class="js-example-basic-multiple" name="tags[]" multiple="multiple">
                                         @if (old('tags'))
                                             {{-- Preserve old tags --}}
@@ -53,27 +47,32 @@
                                                 <option value="{{ $tag }}" selected>{{ $tag }}</option>
                                             @endforeach
                                         @elseif (isset($note))
-                                            {{-- Display tags from the note --}}
-                                            @if (is_array($note->tags))
-                                                @foreach ($note->tags as $tag)
-                                                    <option value="{{ $tag }}" selected>{{ $tag }}
-                                                    </option>
-                                                @endforeach
-                                            @else
-                                                {{-- Handle the case where $note->tags is a string --}}
-                                                <option value="{{ $note->tags }}" selected>{{ $note->tags }}</option>
-                                            @endif
+                                            @php
+                                                $decodedTags = json_decode($note->tags);
+                                                $tagsString = implode(', ', $decodedTags);
+                                            @endphp
+                                            <option value="{{ $tagsString }}" selected>{{ $tagsString }}</option>
                                         @endif
                                     </select>
                                 </div>
-
+                                @error('tags')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
                                 <div class="col-sm-12 mb-2">
-                                    @error('note')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
+
                                     <textarea class="form-control editor" id="editor" name="note" placeholder="Enter your notes here...">{{ isset($note) ? $note->note : old('note') }}</textarea>
                                 </div>
+                                @error('note')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+                                <div class="col-sm-12 mb-2">
+                                    <button type="submit" class="btn btn-sm btn-primary float-right">
+                                        <i class="fas fa-solid fa-square-plus text-white-50"></i>
+                                        {{ isset($note) ? 'Update Note' : 'Add Note' }}
+                                    </button>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

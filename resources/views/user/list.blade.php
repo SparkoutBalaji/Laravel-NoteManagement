@@ -11,6 +11,7 @@
             </div>
         @endif
         @if ($userNotes->count() > 0)
+
             <div class="card shadow mb-2">
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -30,13 +31,12 @@
                                 @foreach ($notesInCategory as $note)
                                     <tr>
                                         <td>{{ $note->category }}</td>
-                                        <td>{{ $note->tags }}</td>
+
+                                        <td>{{ implode(', ', json_decode($note->tags)) }}</td>
+
                                         <td>{!! $note->note !!}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <a href="javascript:void(0);"
-                                                    onclick="showNote('{{ $category }}', '{{ $note->tags }}', '{!! addslashes($note->note) !!}')"
-                                                    class="btn btn-primary">Show</a> &nbsp; &nbsp;
                                                 <a href="{{ route('notes.edit', ['note' => $note->id]) }}"
                                                     class="btn btn-info">Edit</a>
                                                 &nbsp; &nbsp;
@@ -54,41 +54,29 @@
                                 @endforeach
                             @endforeach
                         </tbody>
+
                     </table>
+
                 </div>
+
             </div>
         @else
-            <p>No notes found for {{ $user->name }}.</p>
+            <p>{{ $user->name }} not have a Notes.</p>
         @endif
+
     </div>
-    <!-- Modal for Show Action -->
-    <div class="modal fade" id="showNoteModal" tabindex="-1" role="dialog" aria-labelledby="showNoteModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="showNoteModalLabel">Show Note</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="showNoteModalBody">
-                    <!-- Content will be loaded here using JavaScript -->
-                    <h5>Category: <span id="modalCategory"></span></h5>
-                    <p><strong>Tags:</strong> <span id="modalTags"></span></p>
-                    <p><strong>Note:</strong> <span id="modalNote"></span></p>
-                </div>
-            </div>
+
+@endsection
+
+
+{{-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+    <div class="input-group">
+        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+            aria-label="Search" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="button">
+                <i class="fas fa-search fa-sm"></i>
+            </button>
         </div>
     </div>
-    <!-- Script for showNote function -->
-    <script>
-        function showNote(category, tags, note) {
-
-            $('#modalCategory').text(category);
-            $('#modalTags').text(tags);
-            $('#modalNote').html(note);
-            $('#showNoteModal').modal('show');
-        }
-    </script>
-@endsection
+</form> --}}

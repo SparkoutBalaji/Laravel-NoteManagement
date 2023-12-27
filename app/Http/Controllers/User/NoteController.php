@@ -21,9 +21,10 @@ class NoteController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'category' => 'required',
-            'tags' => 'required|array',
+            'tags' => 'required',
             'note' => 'required',
         ]);
 

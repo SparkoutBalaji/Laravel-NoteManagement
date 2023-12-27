@@ -27,6 +27,13 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('users')->attempt($credentials)) {
+            $previous_session = Auth::user()->session_id;
+            if ($previous_session) {
+                Session::getHandler()->destroy($previous_session);
+            }
+
+            Auth::user()->session_id = Session::getId();
+            Auth::user()->save();
             return redirect()->route('notes.create');
         } else {
             return redirect()
