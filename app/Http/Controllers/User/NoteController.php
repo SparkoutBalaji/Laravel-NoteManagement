@@ -22,15 +22,20 @@ class NoteController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        $validator = Validator::make($request->all(), [
+        $validator = $request->validate([
             'category' => 'required',
             'tags' => 'required',
             'note' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'category' => 'required',
+        //     'tags' => 'required',
+        //     'note' => 'required',
+        // ]);
+        // if ($validator->fails()) {
+        //     return back()->withErrors($validator)->withInput();
+        // }
 
 
         $tags = !empty($request->tags) ? json_encode($request->tags) : '';
@@ -56,8 +61,7 @@ class NoteController extends Controller
 
             Session::flash('message', 'Note submitted successfully.');
         }
-        $id = Auth::user()->id;
-        return redirect()->route('notes.list', ['id' => $id]);
+        return redirect()->route('notes.list');
     }
 
     public function list()
@@ -98,8 +102,6 @@ class NoteController extends Controller
     {
         // dd($request->all());
         Note::where('id', $request->input('Note'))->delete();
-        $id = Auth::guard('users')->user()->id;
-
-        return redirect()->route('notes.list', ['id' => $id])->with('success', 'Note deleted successfully');
+        return redirect()->route('notes.list')->with('success', 'Note deleted successfully');
     }
 }

@@ -1,6 +1,12 @@
 @extends('user.dashboard')
 @section('title', 'Category Notes List')
 @section('main')
+<style>
+    .btn{
+        width: 80px;
+        height: 40px;
+    }
+</style>
 <div class="container">
     <h4>Notes List - {{ $categoryName }}</h4>
 

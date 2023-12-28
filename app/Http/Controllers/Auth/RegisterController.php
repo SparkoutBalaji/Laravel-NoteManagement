@@ -25,7 +25,6 @@ class RegisterController extends Controller
             'password' => bcrypt($request->input('password')), // Hash the password
         ]);
 
-        //Auth::login($user);
         return redirect()->route('login')->with('success','Successfully registered.! Login Here..!');
     }
 }

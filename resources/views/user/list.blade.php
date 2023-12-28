@@ -1,6 +1,12 @@
 @extends('user.dashboard')
 @section('title', 'Notes List')
 @section('main')
+<style>
+    .btn{
+        width: 80px;
+        height: 40px;
+    }
+</style>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <div class="container">
@@ -67,16 +73,3 @@
     </div>
 
 @endsection
-
-
-{{-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-    <div class="input-group">
-        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-            aria-label="Search" aria-describedby="basic-addon2">
-        <div class="input-group-append">
-            <button class="btn btn-primary" type="button">
-                <i class="fas fa-search fa-sm"></i>
-            </button>
-        </div>
-    </div>
-</form> --}}
