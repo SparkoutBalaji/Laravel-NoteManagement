@@ -49,9 +49,15 @@
                                         @elseif (isset($note))
                                             @php
                                                 $decodedTags = json_decode($note->tags);
-                                                $tagsString = implode(', ', $decodedTags);
                                             @endphp
-                                            <option value="{{ $tagsString }}" selected>{{ $tagsString }}</option>
+                                            @if (is_array($decodedTags))
+                                                @foreach ($decodedTags as $tag)
+                                                    <option value="{{ $tag }}" selected>{{ $tag }}
+                                                    </option>
+                                                @endforeach
+                                            @else
+                                                <option value="{{ $decodedTags }}" selected>{{ $decodedTags }}</option>
+                                            @endif
                                         @endif
                                     </select>
                                 </div>
