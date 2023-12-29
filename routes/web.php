@@ -47,11 +47,10 @@ Route::delete('/user/notes', [NoteController::class, 'destroy'])->name('notes.de
 Route::get('/user/notes/create', [NoteController::class, 'create'])->name('notes.create');
 Route::post('/user/notes', [NoteController::class, 'store'])->name('notes.store');
 
-Route::get('/user/notes/edit', [NoteController::class, 'edit'])->name('notes.edit');
+Route::post('/user/notes/edit', [NoteController::class, 'edit'])->name('notes.edit');
 Route::put('/user/notes', [NoteController::class, 'store'])->name('notes.update');
 });
 // Route::post('/user/notes/uploads',[NoteController::class,'upload'])->name('notes.uploads');
-
 
 //Forgot Password
 Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');

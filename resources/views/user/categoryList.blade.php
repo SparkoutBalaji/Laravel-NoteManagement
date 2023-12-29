@@ -29,8 +29,11 @@
                                 <td>{!! $note->note !!}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('notes.edit', ['note' => $note->id]) }}"
-                                            class="btn btn-info">Edit</a>
+                                        <form method="POST" action="{{ route('notes.edit') }}">
+                                            @csrf
+                                            <input type="hidden" name="note" value="{{ $note->id }}">
+                                            <button type="submit" class="btn btn-info">Edit</button>
+                                        </form>
                                         &nbsp; &nbsp;
                                         <form method="POST" action="{{ route('notes.destroy') }}"
                                             onsubmit="return confirm('Are you sure to Delete this Note?');">

@@ -28,16 +28,6 @@ class NoteController extends Controller
             'note' => 'required',
         ]);
 
-        // $validator = Validator::make($request->all(), [
-        //     'category' => 'required',
-        //     'tags' => 'required',
-        //     'note' => 'required',
-        // ]);
-        // if ($validator->fails()) {
-        //     return back()->withErrors($validator)->withInput();
-        // }
-
-
         $tags = !empty($request->tags) ? json_encode($request->tags) : '';
 
 
@@ -83,7 +73,7 @@ class NoteController extends Controller
 
         $category = Note::where('category', $categoryName)->get();
 
-        return view('user.categoryList', compact('user', 'userCategories','categoryName', 'userNotes', 'category'));
+        return view('user.categoryList', compact('user', 'userCategories', 'categoryName', 'userNotes', 'category'));
     }
 
 
@@ -91,17 +81,17 @@ class NoteController extends Controller
     public function edit()
     {
         $user = Auth::user();
-        $note = Note::find(request('note'));
+        $noteId = request('note');
+        $note = Note::find($noteId);
         $userCategories = $user->category;
 
         return view('user.createOrEdit', compact('user', 'userCategories', 'note'));
     }
 
 
-    public function destroy(Request $request)
+    public function destroy()
     {
-        // dd($request->all());
-        Note::where('id', $request->input('Note'))->delete();
+        Note::where('id', request('note'))->delete();
         return redirect()->route('notes.list')->with('success', 'Note deleted successfully');
     }
 }
